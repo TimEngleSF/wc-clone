@@ -1,4 +1,4 @@
-package parse
+package helpers
 
 import (
 	"bufio"
@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-func GetCounts(fname string, tlc, twc, tcc *int) (lc, wc, cc int) {
-	// var lc, wc, cc int
+func GetCounts(fname string) (int, int, int) {
+	var lc, wc, cc int
 	file, err := os.Open(fname)
 
 	if err != nil {
@@ -24,13 +24,10 @@ func GetCounts(fname string, tlc, twc, tcc *int) (lc, wc, cc int) {
 
 		// split by whitespace to create slice of words and get the length
 		wc += len(strings.Fields(s))
-		*twc += wc
 		// count characters
 		cc += len(s)
-		*tcc += cc
 		// count lines
 		lc++
-		*tlc += lc
 	}
-	return
+	return lc, wc, cc
 }
