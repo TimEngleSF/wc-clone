@@ -1,11 +1,11 @@
-package print
+package helpers
 
 import (
 	"fmt"
 	"testing"
 )
 
-func TestPrintStats(t *testing.T) {
+func TestCreateStatsString(t *testing.T) {
 	var expected string
 	var actual string
 	lc := 1
@@ -18,21 +18,21 @@ func TestPrintStats(t *testing.T) {
 
 	// Single flag tests
 	expected = fmt.Sprintf(oneFlagStr, lc, fname)
-	actual = Stats(lc, wc, cc, fname, true, false, false, 1)
+	actual = CreateStatsString(lc, wc, cc, fname, true, false, false, 1)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
 	}
 
 	expected = fmt.Sprintf(oneFlagStr, wc, fname)
-	actual = Stats(lc, wc, cc, fname, false, true, false, 1)
+	actual = CreateStatsString(lc, wc, cc, fname, false, true, false, 1)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
 	}
 
 	expected = fmt.Sprintf(oneFlagStr, cc, fname)
-	actual = Stats(lc, wc, cc, fname, false, false, true, 1)
+	actual = CreateStatsString(lc, wc, cc, fname, false, false, true, 1)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
@@ -40,21 +40,21 @@ func TestPrintStats(t *testing.T) {
 
 	// Two flags
 	expected = fmt.Sprintf(twoFlagStr, lc, wc, fname)
-	actual = Stats(lc, wc, cc, fname, true, true, false, 2)
+	actual = CreateStatsString(lc, wc, cc, fname, true, true, false, 2)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
 	}
 
 	expected = fmt.Sprintf(twoFlagStr, lc, cc, fname)
-	actual = Stats(lc, wc, cc, fname, true, false, true, 2)
+	actual = CreateStatsString(lc, wc, cc, fname, true, false, true, 2)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
 	}
 
 	expected = fmt.Sprintf(twoFlagStr, wc, cc, fname)
-	actual = Stats(lc, wc, cc, fname, false, true, true, 2)
+	actual = CreateStatsString(lc, wc, cc, fname, false, true, true, 2)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)
@@ -62,7 +62,7 @@ func TestPrintStats(t *testing.T) {
 
 	// Three flags
 	expected = fmt.Sprintf(threeFlagStr, lc, wc, cc, fname)
-	actual = Stats(lc, wc, cc, fname, true, true, true, 3)
+	actual = CreateStatsString(lc, wc, cc, fname, true, true, true, 3)
 
 	if expected != actual {
 		t.Errorf("Output mismatch.\nExpected: %s\nGot: %s", expected, actual)

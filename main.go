@@ -4,8 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"wc-clone/parse"
-	"wc-clone/print"
+	"wc-clone/helpers"
 )
 
 func main() {
@@ -29,19 +28,22 @@ func main() {
 			continue
 		}
 
-		lc, wc, cc := parse.GetCounts(fname, &tlc, &twc, &tcc)
+		lc, wc, cc := helpers.GetCounts(fname)
+		tlc += lc
+		twc += wc
+		tcc += cc
 
 		if flagCount > 0 {
-			output := print.Stats(lc, wc, cc, fname, *printLc, *printWc, *printCc, flagCount)
+			output := helpers.CreateStatsString(lc, wc, cc, fname, *printLc, *printWc, *printCc, flagCount)
 			fmt.Printf("%s", output)
 		} else {
-			fmt.Printf("%7d %7d %7d %s\n", tlc, twc, tcc, "total")
+			fmt.Printf("%7d %7d %7d %s\n", tlc, twc, tcc, fname)
 		}
 	}
 	// if multiple files print a totals count
 	if multiInput {
 		if flagCount > 0 {
-			output := print.Stats(tlc, twc, tcc, "total", *printLc, *printWc, *printCc, flagCount)
+			output := helpers.CreateStatsString(tlc, twc, tcc, "total", *printLc, *printWc, *printCc, flagCount)
 			fmt.Printf("%s", output)
 		} else {
 			fmt.Printf("%7d %7d %7d %s\n", tlc, twc, tcc, "total")
