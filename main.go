@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"os"
-	"strings"
-	"wc-clone/printStats"
+	"wc-clone/parse"
+	"wc-clone/print"
 )
 
 func main() {
@@ -29,48 +28,23 @@ func main() {
 		if fname == "-l" || fname == "-w" || fname == "-c" {
 			continue
 		}
-		parseFile(fname, &tlc, &twc, &tcc, *printLc, *printWc, *printCc, flagCount)
+
+		lc, wc, cc := parse.GetCounts(fname, &tlc, &twc, &tcc)
+
+		if flagCount > 0 {
+			output := print.Stats(lc, wc, cc, fname, *printLc, *printWc, *printCc, flagCount)
+			fmt.Printf("%s", output)
+		} else {
+			fmt.Printf("%7d %7d %7d %s\n", tlc, twc, tcc, "total")
+		}
 	}
 	// if multiple files print a totals count
 	if multiInput {
 		if flagCount > 0 {
-			output := printStats.PrintStats(tlc, twc, tcc, "total", *printLc, *printWc, *printCc, flagCount)
+			output := print.Stats(tlc, twc, tcc, "total", *printLc, *printWc, *printCc, flagCount)
 			fmt.Printf("%s", output)
 		} else {
-			fmt.Printf(" %7d %7d %7d %s\n", tlc, twc, tcc, "total")
+			fmt.Printf("%7d %7d %7d %s\n", tlc, twc, tcc, "total")
 		}
 	}
-}
-
-func parseFile(fname string, tlc, twc, tcc *int, printLc, printWc, printCc bool, flagCount int) {
-	var lc, wc, cc int
-	file, err := os.Open(fname)
-
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-	}
-
-	scan := bufio.NewScanner(file)
-
-	for scan.Scan() { // this will loop over each line
-		s := scan.Text()
-
-		// split by whitespace to create slice of words and get the length
-		wc += len(strings.Fields(s))
-		*twc += wc
-		// count characters
-		cc += len(s)
-		*tcc += cc
-		// count lines
-		lc++
-		*tlc += lc
-	}
-	if flagCount > 0 {
-		output := printStats.PrintStats(lc, wc, cc, fname, printLc, printWc, printCc, flagCount)
-		fmt.Printf("%s", output)
-	} else {
-		fmt.Printf(" %7d %7d %7d %s\n", lc, wc, cc, fname)
-	}
-
-	file.Close()
 }

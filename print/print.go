@@ -1,8 +1,8 @@
-package printStats
+package print
 
 import "fmt"
 
-func PrintStats(lc, wc, cc int, fname string, printLc, printWc, printCc bool, flagCount int) string {
+func Stats(lc, wc, cc int, fname string, printLc, printWc, printCc bool, flagCount int) string {
 	oneFlagString := "%7d %s\n"
 	twoFlagString := "%7d %7d %s\n"
 	threeFlagString := "%7d %7d %7d %s\n"
